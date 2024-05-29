@@ -37,7 +37,7 @@ func (d *Database) MigrateUsingBindata(
 		d.logr.Fatal().Err(err).Msg("failed to create gobindata source driver instance")
 	}
 
-	dbmigrate, err := migrate.NewWithSourceInstance("go-bindata", sourceDriver, d.config.URL)
+	dbmigrate, err := migrate.NewWithSourceInstance("go-bindata", sourceDriver, d.config.PostgresURL)
 	if err != nil {
 		return err
 	}
