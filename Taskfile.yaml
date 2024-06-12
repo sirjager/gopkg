@@ -1,0 +1,25 @@
+---
+version: "3"
+
+interval: 500ms
+
+tasks:
+  tidy:
+    desc: run go mod tidy
+    cmds:
+      - rm -f ./go.sum
+      - go mod tidy
+      # - go mod vendor
+
+
+  test:
+    desc: run go test
+    cmds:
+      - go clean -testcache
+      - go test -v -cover -short ./...
+
+  lint:
+    desc: lint the code
+    cmds:
+      - golint ./...
+

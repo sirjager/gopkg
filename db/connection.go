@@ -11,11 +11,7 @@ type Config struct {
 	Migrations  string `mapstructure:"MIGRATIONS_DIR"` // The path to the database migration files
 	PostgresURL string `mapstructure:"POSTGRES_URL"`   // The URL for the database connection
 
-	RedisURL  string `mapstructure:"REDIS_URL"`      // The URL for the redis connction
-	RedisAddr string `mapstructure:"REDIS_ADDRESS"`  // The URL for the redis connction
-	RedisUser string `mapstructure:"REDIS_USERNAME"` // The username for authenticating with the redis server
-	RedisPass string `mapstructure:"REDIS_PASSWORD"` // The password for authenticating with the redis server
-	RedisPort string `mapstructure:"REDIS_PORT"`     // The port number on which the redis server is listening
+	RedisURL string `mapstructure:"REDIS_URL"` // The URL for the redis connction
 }
 
 // Database represents a database connection.
