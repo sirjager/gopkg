@@ -28,8 +28,8 @@ func testCreateToken(t *testing.T, payloadData *testPayloadData, duration ...tim
 func TestCreateToken(t *testing.T) {
 	testCases := []struct {
 		test        func(token string, payload *Payload, err error)
-		name        string
 		payloadData *testPayloadData
+		name        string
 	}{
 		{
 			name: "CreateToken/OK",
