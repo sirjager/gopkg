@@ -15,33 +15,23 @@ var (
 	ErrInvalidToken = errors.New("invalid token")
 )
 
-// PayloadData contains the payload data of the token
-type PayloadData struct {
-	Code      string `json:"code,omitempty"`
-	SessionID string `json:"session_id,omitempty"`
-	UserEmail string `json:"user_email,omitempty"`
-	ClientIP  string `json:"client_ip,omitempty"`
-	UserAgent string `json:"user_agent,omitempty"`
-	UserID    []byte `json:"user_id,omitempty"`
-}
-
 // Payload contains the payload data of the token
 type Payload struct {
 	IssuedAt  time.Time   `json:"iat,omitempty"`
 	ExpiresAt time.Time   `json:"expires,omitempty"`
+	Payload   interface{} `json:"payload,omitempty"`
 	ID        string      `json:"id,omitempty"`
-	Payload   PayloadData `json:"payload,omitempty"`
 }
 
 // NewPayload creates a new payload for a specific username and duration
-func NewPayload(p PayloadData, duration time.Duration) (*Payload, error) {
+func NewPayload(data interface{}, duration time.Duration) *Payload {
 	payload := &Payload{
-		Payload:   p,
+		Payload:   data,
 		IssuedAt:  time.Now(),
 		ID:        utils.XIDNew().String(),
 		ExpiresAt: time.Now().Add(duration),
 	}
-	return payload, nil
+	return payload
 }
 
 // Valid checks if the token payload is not expired
