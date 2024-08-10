@@ -9,7 +9,7 @@ func (builder *PasetoBuilder) CreateToken(
 	payloadData interface{},
 	tokenAliveDuration time.Duration,
 ) (string, *Payload, error) {
-	payload := NewPayload(payloadData, tokenAliveDuration)
+	payload := newPayload(payloadData, tokenAliveDuration)
 	token, err := builder.paseto.Encrypt(builder.symmetricKey, payload, nil)
 	if err != nil {
 		return "", nil, err

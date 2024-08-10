@@ -23,8 +23,8 @@ type Payload struct {
 	ID        string      `json:"id,omitempty"`
 }
 
-// NewPayload creates a new payload for a specific username and duration
-func NewPayload(data interface{}, duration time.Duration) *Payload {
+// newPayload creates a new payload for a specific username and duration
+func newPayload(data interface{}, duration time.Duration) *Payload {
 	payload := &Payload{
 		Payload:   data,
 		IssuedAt:  time.Now(),
