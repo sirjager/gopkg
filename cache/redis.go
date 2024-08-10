@@ -99,13 +99,13 @@ func (r *redisCache) Get(ctx context.Context, key string, value interface{}) err
 		return err
 	}
 
-	if err = json.Unmarshal(data, &value); err != nil {
+	if err = json.Unmarshal(data, value); err != nil {
 		return ErrUnMarshal
 	}
 	return nil
 }
 
-func (r *redisCache) GetWithPrefix(ctx context.Context, prefix string, values any) error {
+func (r *redisCache) GetWithPrefix(ctx context.Context, prefix string, values interface{}) error {
 	keys, err := r.GetKeysWithPrefix(ctx, prefix)
 	if err != nil {
 		if errors.Is(err, ErrNoRecord) {
