@@ -16,11 +16,6 @@ type redisCache struct {
 	logr   zerolog.Logger
 }
 
-var (
-	ErrNoRecord  = redis.Nil
-	ErrUnMarshal = errors.New("failed to unmarshal data")
-)
-
 // NewRedisClient creates a new RedisClient
 func NewCacheRedis(client *redis.Client, logr zerolog.Logger) Cache {
 	return &redisCache{client, logr}
@@ -92,9 +87,9 @@ func (r *redisCache) GetKeysWithPrefix(ctx context.Context, prefix string) ([]st
 func (r *redisCache) Get(ctx context.Context, key string, value interface{}) error {
 	data, err := r.client.Get(ctx, key).Bytes()
 	if err != nil {
-		if errors.Is(err, ErrNoRecord) {
+		if errors.Is(err, redis.Nil) {
 			// can do somethig here, or return different error
-			return err // key does not exist
+			return ErrNoRecord
 		}
 		return err
 	}
@@ -108,9 +103,9 @@ func (r *redisCache) Get(ctx context.Context, key string, value interface{}) err
 func (r *redisCache) GetWithPrefix(ctx context.Context, prefix string, values interface{}) error {
 	keys, err := r.GetKeysWithPrefix(ctx, prefix)
 	if err != nil {
-		if errors.Is(err, ErrNoRecord) {
+		if errors.Is(err, redis.Nil) {
 			// can do somethig here, or return different error
-			return err // key does not exist
+			return ErrNoRecord
 		}
 		return err
 	}
