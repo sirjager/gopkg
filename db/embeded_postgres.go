@@ -23,28 +23,22 @@ type EmbededPostgres struct {
 }
 
 // NewEmbededPostgres can be used for running embedded postgres instance for testing and demo purposes.
-func NewEmbededPostgres(ctx context.Context, opts *EmbededPostgresOpts) (*EmbededPostgres, error) {
-	pgConfig := embPostgres.DefaultConfig().
+func NewEmbededPostgres(opts *EmbededPostgresOpts) *EmbededPostgres {
+	config := embPostgres.DefaultConfig().
 		Username(opts.DBUser).Database(opts.DBName).Password(opts.DBPass).
 		RuntimePath(opts.RunTimeDir).
 		StartTimeout(opts.Timeout)
-
-	connectionURL := pgConfig.GetConnectionURL() + "?sslmode=disable"
-
-	pool, err := pgxpool.New(ctx, connectionURL)
-	if err != nil {
-		return nil, err
-	}
-
-	pg := embPostgres.NewDatabase(pgConfig)
-	return &EmbededPostgres{
-		pg:            pg,
-		Pool:          pool,
-		ConnectionURL: connectionURL,
-	}, nil
+	connectionURL := config.GetConnectionURL() + "?sslmode=disable"
+	pg := embPostgres.NewDatabase(config)
+	return &EmbededPostgres{pg: pg, ConnectionURL: connectionURL}
 }
 
-func (e *EmbededPostgres) Start() error {
+func (e *EmbededPostgres) Start(ctx context.Context) error {
+	pool, err := pgxpool.New(ctx, e.ConnectionURL)
+	if err != nil {
+		return err
+	}
+	e.Pool = pool
 	return e.pg.Start()
 }
 
