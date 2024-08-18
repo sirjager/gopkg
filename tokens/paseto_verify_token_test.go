@@ -13,7 +13,7 @@ func TestVerifyToken(t *testing.T) {
 	payloadData := &testPayloadData{
 		UserID: utils.RandomString(32),
 	}
-	token, validPayload := testCreateToken(t, payloadData)
+	token, _ := testCreateToken(t, payloadData)
 	expiredToken, _ := testCreateToken(t, payloadData, time.Millisecond)
 	time.Sleep(time.Second) // Waiting a second to expire our token
 
@@ -28,10 +28,6 @@ func TestVerifyToken(t *testing.T) {
 			test: func(payload *Payload, err error) {
 				require.NoError(t, err)
 				require.NotEmpty(t, payload)
-				data, ok := validPayload.Payload.(*testPayloadData)
-				require.True(t, ok)
-				require.Equal(t, payloadData.UserID, data.UserID)
-				require.Equal(t, payloadData.UserID, data.UserID)
 			},
 		},
 		{
@@ -58,7 +54,8 @@ func TestVerifyToken(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			tc.test(pasetoTokenBuilder.VerifyToken(tc.token))
+			var data testPayloadData
+			tc.test(pasetoTokenBuilder.VerifyToken(tc.token, &data))
 		})
 	}
 }

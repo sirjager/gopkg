@@ -1,14 +1,16 @@
 package tokens
 
 // VerifyToken verifies a token
-func (builder *PasetoBuilder) VerifyToken(token string) (*Payload, error) {
+func (b *pasetoBuilder) VerifyToken(token string, data interface{}) (*Payload, error) {
 	payload := &Payload{}
-	err := builder.paseto.Decrypt(token, builder.symmetricKey, payload, nil)
+	err := b.paseto.Decrypt(token, b.symmetricKey, payload, nil)
 	if err != nil {
 		return nil, ErrInvalidToken
 	}
-	err = payload.Valid()
-	if err != nil {
+	if err = payload.Valid(); err != nil {
+		return nil, err
+	}
+	if err = b.codec.Unmarshal(payload.Data, data); err != nil {
 		return nil, err
 	}
 	return payload, nil

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/sirjager/gopkg/codec"
 	"github.com/sirjager/gopkg/utils"
 )
 
@@ -17,21 +18,29 @@ var (
 
 // Payload contains the payload data of the token
 type Payload struct {
-	IssuedAt  time.Time   `json:"iat,omitempty"`
-	ExpiresAt time.Time   `json:"expires,omitempty"`
-	Payload   interface{} `json:"payload,omitempty"`
-	ID        string      `json:"id,omitempty"`
+	IssuedAt  time.Time `json:"iat,omitempty"`
+	ExpiresAt time.Time `json:"expires,omitempty"`
+	ID        string    `json:"id,omitempty"`
+	Data      []byte    `json:"payload,omitempty"`
 }
 
 // newPayload creates a new payload for a specific username and duration
-func newPayload(data interface{}, duration time.Duration) *Payload {
+func newPayload(
+	data interface{},
+	duration time.Duration,
+	codec codec.Codec,
+) (*Payload, error) {
+	bytes, err := codec.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
 	payload := &Payload{
-		Payload:   data,
+		Data:      bytes,
 		IssuedAt:  time.Now(),
 		ID:        utils.XIDNew().String(),
 		ExpiresAt: time.Now().Add(duration),
 	}
-	return payload
+	return payload, nil
 }
 
 // Valid checks if the token payload is not expired

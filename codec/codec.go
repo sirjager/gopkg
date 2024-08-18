@@ -1,6 +1,6 @@
-package serializer
+package codec
 
-type Serializer interface {
+type Codec interface {
 	Marshal(v interface{}) ([]byte, error)
 	Unmarshal(data []byte, v interface{}) error
 }

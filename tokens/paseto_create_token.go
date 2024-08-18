@@ -5,12 +5,12 @@ import (
 )
 
 // CreateToken creates a new token
-func (builder *PasetoBuilder) CreateToken(
-	payloadData interface{},
-	tokenAliveDuration time.Duration,
-) (string, *Payload, error) {
-	payload := newPayload(payloadData, tokenAliveDuration)
-	token, err := builder.paseto.Encrypt(builder.symmetricKey, payload, nil)
+func (b *pasetoBuilder) CreateToken(data interface{}, exp time.Duration) (string, *Payload, error) {
+	payload, err := newPayload(data, exp, b.codec)
+	if err != nil {
+		return "", nil, err
+	}
+	token, err := b.paseto.Encrypt(b.symmetricKey, payload, nil)
 	if err != nil {
 		return "", nil, err
 	}
