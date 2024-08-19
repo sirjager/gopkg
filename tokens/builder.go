@@ -9,4 +9,7 @@ type TokenBuilder interface {
 
 	// Validates token integrity and expiration time
 	VerifyToken(token string, data interface{}) (*Payload, error)
+
+	// ReadPayload extracts custom payload data from payload if valid
+	ReadPayload(payload *Payload, data interface{}) error
 }

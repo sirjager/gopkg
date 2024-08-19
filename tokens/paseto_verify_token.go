@@ -7,10 +7,7 @@ func (b *pasetoBuilder) VerifyToken(token string, data interface{}) (*Payload, e
 	if err != nil {
 		return nil, ErrInvalidToken
 	}
-	if err = payload.Valid(); err != nil {
-		return nil, err
-	}
-	if err = b.codec.Unmarshal(payload.Data, data); err != nil {
+	if err := b.ReadPayload(payload, data); err != nil {
 		return nil, err
 	}
 	return payload, nil
