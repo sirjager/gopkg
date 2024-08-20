@@ -1,7 +1,7 @@
 package tokens
 
 // VerifyToken verifies a token
-func (b *pasetoBuilder) VerifyToken(token string, data interface{}) (*Payload, error) {
+func (b *PasetoBuilder) VerifyToken(token string, data interface{}) (*Payload, error) {
 	payload := &Payload{}
 	err := b.paseto.Decrypt(token, b.symmetricKey, payload, nil)
 	if err != nil {

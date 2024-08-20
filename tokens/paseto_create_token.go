@@ -5,7 +5,7 @@ import (
 )
 
 // CreateToken creates a new token
-func (b *pasetoBuilder) CreateToken(data interface{}, exp time.Duration) (string, *Payload, error) {
+func (b *PasetoBuilder) CreateToken(data interface{}, exp time.Duration) (string, *Payload, error) {
 	payload, err := newPayload(data, exp, b.codec)
 	if err != nil {
 		return "", nil, err

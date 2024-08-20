@@ -1,6 +1,6 @@
 package tokens
 
-func (b *pasetoBuilder) ReadPayload(payload *Payload, data interface{}) error {
+func (b *PasetoBuilder) ReadPayload(payload *Payload, data interface{}) error {
 	if err := payload.Valid(); err != nil {
 		return err
 	}

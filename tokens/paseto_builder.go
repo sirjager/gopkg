@@ -11,8 +11,8 @@ import (
 
 const PasetoSymmetricKeyLength = chacha20poly1305.KeySize
 
-// pasetoBuilder implements TokenBuilder
-type pasetoBuilder struct {
+// PasetoBuilder implements TokenBuilder
+type PasetoBuilder struct {
 	codec        codec.Codec
 	paseto       *paseto.V2
 	symmetricKey []byte
@@ -34,7 +34,7 @@ func NewPasetoBuilder(symmetricKey string, codecs ...codec.Codec) (TokenBuilder,
 		selected = codec.NewJSON()
 	}
 
-	builder := &pasetoBuilder{
+	builder := &PasetoBuilder{
 		paseto:       paseto.NewV2(),
 		symmetricKey: []byte(symmetricKey),
 		codec:        selected,
