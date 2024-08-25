@@ -1,5 +1,32 @@
 package utils
 
+import "reflect"
+
+// IsEmpty checks if the given value is empty.
+// It handles different types, including strings, slices, arrays, maps, channels, pointers, and interfaces.
+// For strings, it checks if the string is empty.
+// For slices, arrays, and maps, it checks if the length is zero.
+// For channels, it checks if the length is zero.
+// For pointers and interfaces, it checks if the value is nil.
+// For all other types, it defaults to false, assuming they are not empty.
+func IsEmpty[T any](value T) bool {
+	v := reflect.ValueOf(value)
+	switch v.Kind() {
+	case reflect.String:
+		return v.String() == ""
+	case reflect.Slice, reflect.Array:
+		return v.Len() == 0
+	case reflect.Map:
+		return v.Len() == 0
+	case reflect.Chan:
+		return v.Len() == 0
+	case reflect.Ptr, reflect.Interface:
+		return v.IsNil()
+	default:
+		return false
+	}
+}
+
 // Generic function to check if a value exists in a slice
 func ValueExist[T comparable](find T, in []T) bool {
 	for _, v := range in {

@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+
+
 // BytesToBase64 converts bytes to base64 string.
 // This ensures that the resulting string can be safely used in text-based contexts like cookies, URLs, and HTTP headers,
 // which may not handle arbitrary binary data properly.
