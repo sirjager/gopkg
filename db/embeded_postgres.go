@@ -35,7 +35,18 @@ func NewEmbededPostgres(opts *EmbededPostgresOpts) *EmbededPostgres {
 	return &EmbededPostgres{pg: pg, ConnectionURL: connectionURL}
 }
 
+// Connect can be used for connecting already running instance
+func (e *EmbededPostgres) Connect(ctx context.Context) error {
+	pool, err := pgxpool.New(ctx, e.ConnectionURL)
+	if err != nil {
+		return err
+	}
+	e.Pool = pool
+	return nil
+}
+
 func (e *EmbededPostgres) Start(ctx context.Context) error {
+	_ = e.pg.Stop() // stop previos if any
 	pool, err := pgxpool.New(ctx, e.ConnectionURL)
 	if err != nil {
 		return err
