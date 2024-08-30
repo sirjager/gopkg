@@ -13,6 +13,7 @@ type EmbededPostgresOpts struct {
 	DBUser     string
 	DBPass     string
 	RunTimeDir string
+	DBPort     uint32
 	Timeout    time.Duration
 }
 
@@ -26,6 +27,7 @@ type EmbededPostgres struct {
 func NewEmbededPostgres(opts *EmbededPostgresOpts) *EmbededPostgres {
 	config := embPostgres.DefaultConfig().
 		Username(opts.DBUser).Database(opts.DBName).Password(opts.DBPass).
+		Port(opts.DBPort).
 		RuntimePath(opts.RunTimeDir).
 		StartTimeout(opts.Timeout)
 	connectionURL := config.GetConnectionURL() + "?sslmode=disable"
