@@ -23,7 +23,7 @@ type Database struct {
 
 // NewConnection creates a new database connection based on the provided configuration.
 // It returns a Database instance and any error encountered during the connection process.
-func NewDatabae(
+func NewDatabase(
 	ctx context.Context,
 	config Config,
 	logr zerolog.Logger,
