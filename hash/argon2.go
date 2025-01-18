@@ -3,6 +3,7 @@ package hash
 import (
 	"bytes"
 	"encoding/hex"
+	"errors"
 	"fmt"
 
 	"golang.org/x/crypto/argon2"
@@ -70,7 +71,7 @@ func (a *argon2Hasher) Verify(salt, hashed, plain string) error {
 	}
 	genHash := argon2.IDKey([]byte(plain), []byte(salt), a.time, a.memory, a.threads, a.keyLen)
 	if !bytes.Equal(genHash, hash) {
-		return fmt.Errorf(ErrHashesDoesNotMatch)
+		return errors.New(ErrHashesDoesNotMatch)
 	}
 	return nil
 }

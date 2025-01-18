@@ -11,7 +11,6 @@ var (
 	isValidNumber        = regexp.MustCompile(`^[0-9]+$`).MatchString
 	isValidUsername      = regexp.MustCompile(`^[a-zA-Z0-9_]+$`).MatchString
 	isValidName          = regexp.MustCompile(`^[a-zA-Z0-9\s]+$`).MatchString
-	isValidIndentifier   = regexp.MustCompile(`^[a-zA-Z][a-zA-Z0-9]{0,60}$`).MatchString
 	isAlphaNumUnderscore = regexp.MustCompile(`^[a-zA-Z0-9_]+$`).MatchString
 	isValidEmail         = regexp.MustCompile(
 		`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`,
