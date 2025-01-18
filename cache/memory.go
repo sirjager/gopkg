@@ -72,6 +72,9 @@ func (c *inMemoryCache) GetWithPrefix(ctx context.Context, prefix string, values
 			it := value.(item)
 			if it.expiration == 0 || time.Now().UnixNano() <= it.expiration {
 				results = append(results, it.value)
+			} else {
+				// expired, hence we can delete
+				c.data.Delete(k)
 			}
 		}
 		return true
