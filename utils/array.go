@@ -1,6 +1,8 @@
 package utils
 
-import "reflect"
+import (
+	"reflect"
+)
 
 // IsEmpty checks if the given value is empty.
 // It handles different types, including strings, slices, arrays, maps, channels, pointers, and interfaces.
@@ -27,7 +29,7 @@ func IsEmpty[T any](value T) bool {
 	}
 }
 
-// Generic function to check if a value exists in a slice
+// ValueExist checks if a value exists in a slice
 func ValueExist[T comparable](find T, in []T) bool {
 	for _, v := range in {
 		if v == find {
@@ -48,6 +50,7 @@ func ReverseArray[T any](list []T) []T {
 	return reversed
 }
 
+// RemoveDuplicates removes duplicates from a list
 func RemoveDuplicates[T comparable](list []T) []T {
 	uniqueMap := make(map[T]bool)
 	uniqueList := []T{}
@@ -60,6 +63,7 @@ func RemoveDuplicates[T comparable](list []T) []T {
 	return uniqueList
 }
 
+// GetFirstOrFallback returns the first element of the array if it is not empty, otherwise returns the fallback value
 func GetFirstOrFallback[T any](fallback T, arr ...T) T {
 	if len(arr) != 0 {
 		return arr[0]
